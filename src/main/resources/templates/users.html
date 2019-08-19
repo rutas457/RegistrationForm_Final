@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+    <title>Registration</title>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <button  id="locales" value="uk"><img src="https://www.countryflags.io/ua/shiny/32.png"></button>
+            <button  id="locales2" value="en"><img src="https://www.countryflags.io/gb/shiny/32.png"></button>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/}" th:text="#{nav.home}"></a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/user/changePassword}" th:text="#{nav.password}"></a></li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/usersList}" th:text="#{nav.usersList}"></a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}" th:text="#{nav.logout}"></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+<div class="container">
+    <p></p>
+    <p></p>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" th:text="#{placeholder.email}"></th>
+            <th scope="col" th:text="#{msg.name}"></th>
+            <th scope="col" th:text="#{msg.surname}"></th>
+        </tr>
+        </thead>
+    <tbody>
+        <tr scope="row" th:each = "user: ${users}">
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+
+<script type="text/javascript"
+        th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript"
+        th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#locales").click(function () {
+            var selectedOption = $('#locales').val();
+            if (selectedOption != '') {
+                window.location.replace('?lang=' + selectedOption);
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#locales2").click(function () {
+            var selectedOption = $('#locales2').val();
+            if (selectedOption != '') {
+                window.location.replace('?lang=' + selectedOption);
+            }
+        });
+    });
+</script>
+</body>
+</html>
